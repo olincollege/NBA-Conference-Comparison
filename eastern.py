@@ -8,9 +8,14 @@ from dateutil import parser
 from nba_api.live.nba.endpoints import scoreboard
 
 import pandas as pd
+import matplotlib_inline as plt
 import datetime
 
-nba_teams = teams.get_teams()
-nba_players = players.get_players()
 
-print(nba_players)
+if __name__ == "__main__":
+
+    nba_teams = teams.get_teams()
+    nba_players = players.get_players()
+
+    # print(nba_players)
+    print(len(nba_players))
