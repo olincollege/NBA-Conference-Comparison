@@ -11,6 +11,9 @@ import pandas as pd
 import matplotlib_inline as plt
 import datetime
 
+nba_teams = teams.get_teams()
+nba_players = players.get_players()
+
 
 def find_id(name):
     """
@@ -95,14 +98,128 @@ def fetch_data(id):
             ]
         ]  # narrows data frame to only needed data points
         return team
-    else:
-        return None
+    return None
+
+
+def fetch_team_data(id):
+    """
+    Fetches the pandas dataframe corresponding with the given
+    team NBA_API ID number.
+
+    Args:
+        id (int): Number denoting a specific team dataframe
+
+    Returns:
+        Returns a pandas dataframe containing the corresponding
+        team data. Returns none if the ID is not found.
+    """
+    team = franchisehistory.FranchiseHistory()  # draws all teams' data
+    team = team.get_data_frames()[0]  # generates pandas data frame
+    team = team.loc[(team["TEAM_ID"] == id)]  # selects specific team
+    team = team.iloc[0]  # narrows the df to the first iteration of the team
+    # team = team[
+    #     [
+    #         "TEAM_CITY",
+    #         "TEAM_NAME",
+    #         "GAMES",
+    #         "WINS",
+    #         "LOSSES",
+    #         "WIN_PCT",
+    #         "PO_APPEARANCES",
+    #         "CONF_TITLES",
+    #         "LEAGUE_TITLES",
+    #         "START_YEAR",
+    #     ]
+    # ]  # narrows data frame to only needed data points
+    return team
+
+
+def sort_conferences():
+    """
+    Sorts teams
+    """
+    eastern_conference = [
+        "Celtics",
+        "Bucks",
+        "Cavaliers",
+        "Knicks",
+        "Magic",
+        "76ers",
+        "Pacers",
+        "Heat",
+        "Bulls",
+        "Hawks",
+        "Nets",
+        "Raptors",
+        "Hornets",
+        "Pistons",
+        "Wizards",
+    ]
+    western_conference = [
+        "Thunder",
+        "Timberwolves",
+        "Nuggets",
+        "Clippers",
+        "Pelicans",
+        "Kings",
+        "Mavericks",
+        "Suns",
+        "Lakers",
+        "Warriors",
+        "Rockets",
+        "Jazz",
+        "Grizzlies",
+        "Trail Blazers",
+        "Spurs",
+    ]
+
+    east_teams = [
+        team for team in nba_teams if team["nickname"] in eastern_conference
+    ]
+    west_teams = [
+        team for team in nba_teams if team["nickname"] in western_conference
+    ]
+    df_eastern = pd.DataFrame(east_teams)
+    df_eastern = df_eastern["id"]
+    df_western = pd.DataFrame(west_teams)
+    df_western = df_western["id"]
+
+    return df_eastern, df_western
+
+
+def calculate_conference_averages(df_eastern, df_western):
+    """
+    Docstring
+    """
+    east_dataframes = []
+    for id in df_eastern.values:
+        df = fetch_team_data(id)
+        east_dataframes.append(df)
+    east = pd.concat(east_dataframes, ignore_index=True)
+    east_mean = east.mean(numeric_only=True)
+    west_dataframes = []
+    for id in df_western.values:
+        df = fetch_team_data(id)
+        west_dataframes.append(df)
+    west = pd.concat(west_dataframes, ignore_index=True)
+    west_mean = west.mean(numeric_only=True)
+    return east, west
 
 
 if __name__ == "__main__":
 
-    nba_teams = teams.get_teams()
-    nba_players = players.get_players()
-
     id = find_id("lebron")
-    print(id)
+    lebron_df = fetch_data(id)
+    # print(lebron_df)
+    # print(nba_teams)
+
+    eastern_df, western_df = sort_conferences()
+    df_eastern_averages, df_western_averages = calculate_conference_averages(
+        eastern_df, western_df
+    )
+    print(eastern_df, western_df)
+    print(type(eastern_df))
+    print("Eastern Conference Teams:")
+    print(df_eastern_averages)
+    print("\nWestern Conference Teams:")
+    print(df_western_averages)
