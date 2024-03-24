@@ -117,21 +117,59 @@ def fetch_team_data(id):
     team = team.get_data_frames()[0]  # generates pandas data frame
     team = team.loc[(team["TEAM_ID"] == id)]  # selects specific team
     team = team.iloc[0]  # narrows the df to the first iteration of the team
-    # team = team[
-    #     [
-    #         "TEAM_CITY",
-    #         "TEAM_NAME",
-    #         "GAMES",
-    #         "WINS",
-    #         "LOSSES",
-    #         "WIN_PCT",
-    #         "PO_APPEARANCES",
-    #         "CONF_TITLES",
-    #         "LEAGUE_TITLES",
-    #         "START_YEAR",
-    #     ]
-    # ]  # narrows data frame to only needed data points
+    team = team[
+        [
+            "TEAM_CITY",
+            "TEAM_NAME",
+            "GAMES",
+            "WINS",
+            "LOSSES",
+            "WIN_PCT",
+            "PO_APPEARANCES",
+            "CONF_TITLES",
+            "LEAGUE_TITLES",
+            "START_YEAR",
+        ]
+    ]  # narrows data frame to only needed data points
     return team
+
+
+def fetch_teams_average_data(ids):
+    """
+    Fetches the pandas dataframes corresponding with the given
+    team NBA_API ID numbers and averages their values.
+
+    Args:
+        ids (list): List of numbers denoting specific team dataframes
+
+    Returns:
+        Returns a pandas dataframe containing the averaged
+        values of all the corresponding team dataframes.
+    """
+    team_dataframes = []
+    for id in ids:
+        team = franchisehistory.FranchiseHistory()  # draws all teams' data
+        team = team.get_data_frames()[0]  # generates pandas data frame
+        team = team.loc[(team["TEAM_ID"] == id)]  # selects specific team
+        team = team.iloc[0]  # narrows the df to the first iteration of the team
+        team = team[
+            [
+                "TEAM_CITY",
+                "TEAM_NAME",
+                "GAMES",
+                "WINS",
+                "LOSSES",
+                "WIN_PCT",
+                "PO_APPEARANCES",
+                "CONF_TITLES",
+                "LEAGUE_TITLES",
+                "START_YEAR",
+            ]
+        ]  # narrows data frame to only needed data points
+        team_dataframes.append(team)
+    averaged_data = pd.concat(team_dataframes, axis=1).mean(axis=1)
+    averaged_data = pd.DataFrame(averaged_data, columns=["AVERAGED_VALUES"])
+    return averaged_data
 
 
 def sort_conferences():
@@ -191,35 +229,38 @@ def calculate_conference_averages(df_eastern, df_western):
     """
     Docstring
     """
-    east_dataframes = []
-    for id in df_eastern.values:
-        df = fetch_team_data(id)
-        east_dataframes.append(df)
-    east = pd.concat(east_dataframes, ignore_index=True)
-    east_mean = east.mean(numeric_only=True)
-    west_dataframes = []
-    for id in df_western.values:
-        df = fetch_team_data(id)
-        west_dataframes.append(df)
-    west = pd.concat(west_dataframes, ignore_index=True)
-    west_mean = west.mean(numeric_only=True)
-    return east, west
+
+    # east_dataframes = []
+    # for id in df_eastern.values:
+    #     df = fetch_team_data(id)
+    #     east_dataframes.append(df)
+    # east = pd.concat(east_dataframes, ignore_index=True)
+    # east_mean = east.mean(numeric_only=True)
+    # west_dataframes = []
+    # for id in df_western.values:
+    #     df = fetch_team_data(id)
+    #     west_dataframes.append(df)
+    # west = pd.concat(west_dataframes, ignore_index=True)
+    # west_mean = west.mean(numeric_only=True)
+    # return east, west
 
 
 if __name__ == "__main__":
 
-    id = find_id("lebron")
-    lebron_df = fetch_data(id)
-    # print(lebron_df)
     # print(nba_teams)
 
     eastern_df, western_df = sort_conferences()
-    df_eastern_averages, df_western_averages = calculate_conference_averages(
-        eastern_df, western_df
-    )
     print(eastern_df, western_df)
-    print(type(eastern_df))
-    print("Eastern Conference Teams:")
-    print(df_eastern_averages)
-    print("\nWestern Conference Teams:")
-    print(df_western_averages)
+
+    var_2 = fetch_teams_average_data(eastern_df)
+    print(var_2)
+
+    # df_eastern_averages, df_western_averages = calculate_conference_averages(
+    #     eastern_df, western_df
+    # )
+    # print(eastern_df, western_df)
+    # print(type(eastern_df))
+    # print("Eastern Conference Teams:")
+    # print(df_eastern_averages)
+    # print("\nWestern Conference Teams:")
+    # print(df_western_averages)
