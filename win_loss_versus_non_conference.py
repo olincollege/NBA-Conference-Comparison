@@ -5,6 +5,19 @@ import matplotlib.pyplot as plt
 
 
 def get_inter_conference_win_loss_records(season):
+    """
+    Calculate win-loss records between Eastern and Western conferences.
+
+    Args:
+        season (str): The NBA season to query, formatted as 'YYYY-YY'.
+
+    Returns:
+        dict: A dictionary containing win-loss records for Eastern and Western
+                conferences based on inter-conference games.
+
+    This function retrieves the inter-conference games for the specified season
+    and calculates the win-loss records for each conference.
+    """
     eastern_vs_western = leaguegamefinder.LeagueGameFinder(
         vs_conference_nullable="West",
         season_nullable=season,
@@ -34,6 +47,20 @@ def get_inter_conference_win_loss_records(season):
 def aggregate_inter_conference_win_loss_records(
     seasons_back, save_to_csv=False
 ):
+    """
+    Aggregate inter-conference win-loss records over multiple seasons.
+
+    Args:
+        seasons_back (int): The number of past seasons to include.
+        save_to_csv (bool): If True, saves the data to a CSV file.
+
+    Returns:
+        dict: A dictionary with aggregated win-loss records for each conference.
+
+    This function aggregates the win-loss records of Eastern and Western
+    conferences against each other over the specified number of past seasons.
+    Optionally, the aggregated data can be saved to a CSV file.
+    """
     current_year = datetime.now().year
     start_year = current_year - seasons_back
 
@@ -67,27 +94,3 @@ def aggregate_inter_conference_win_loss_records(
         df.to_csv(csv_filename)
 
     return aggregated_records
-
-
-def plot_inter_conference_win_loss_records_from_csv(seasons_back):
-    csv_filename = (
-        f"inter_conference_win_loss_records_last_{seasons_back}_seasons.csv"
-    )
-    data = pd.read_csv(csv_filename, index_col=0)
-
-    fig, ax = plt.subplots()
-    data.plot(kind="bar", ax=ax, stacked=True)
-
-    ax.set_ylabel("Number of Games")
-    ax.set_title(
-        f"NBA Inter-Conference Win-Loss Records Over the Last {seasons_back} Seasons"
-    )
-    ax.legend()
-
-    plt.show()
-
-
-# Example usage
-seasons_back = 20
-aggregate_inter_conference_win_loss_records(seasons_back, save_to_csv=True)
-# plot_inter_conference_win_loss_records_from_csv(seasons_back)

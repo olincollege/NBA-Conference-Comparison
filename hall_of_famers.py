@@ -4,6 +4,19 @@ from conferences import get_teams_by_conference
 
 
 def fetch_team_hof(team_id):
+    """
+    Fetch the number of Hall of Fame inductees for a given NBA team.
+
+    Args:
+        team_id (str): The identifier for the NBA team.
+
+    Returns:
+        int: The count of Hall of Fame inductees for the specified team.
+
+    This function accesses the TeamDetails endpoint of the NBA API and
+    retrieves the Hall of Fame inductees list for the specified team,
+    returning the count of inductees.
+    """
     details = teamdetails.TeamDetails(team_id=team_id)
     hof_data = details.get_data_frames()[
         5
@@ -12,6 +25,21 @@ def fetch_team_hof(team_id):
 
 
 def tally_hof_by_conference(save_to_csv=False):
+    """
+    Tally the number of Hall of Fame inductees by NBA conference.
+
+    Args:
+        save_to_csv (bool): If True, the tally will be saved to a CSV file.
+                            Defaults to False.
+
+    Returns:
+        dict: A dictionary with the count of Hall of Fame inductees for each
+        conference.
+
+    This function iterates through all NBA teams, counts the Hall of Fame
+    inductees for each, and aggregates these counts by conference. Optionally,
+    it can save the results to a CSV file.
+    """
     team_conference_map = get_teams_by_conference()
     hof_count = {"East": 0, "West": 0}
 
@@ -28,21 +56,3 @@ def tally_hof_by_conference(save_to_csv=False):
         print("Hall of Famers data saved to 'hall_of_famers_by_conference.csv'")
 
     return hof_count
-
-
-def plot_hof_by_conference_from_csv(
-    csv_filename="hall_of_famers_by_conference.csv",
-):
-    data = pd.read_csv(csv_filename)
-    data.set_index("Conference", inplace=True)
-    data.plot(kind="bar")
-    plt.ylabel("Number of Hall of Famers")
-    plt.title("Number of Hall of Famers by Conference")
-    plt.xticks(rotation=0)
-    plt.tight_layout()
-    plt.show()
-
-
-# Example usage
-tally_hof_by_conference(save_to_csv=True)
-# plot_hof_by_conference_from_csv()

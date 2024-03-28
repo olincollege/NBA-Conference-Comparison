@@ -5,6 +5,20 @@ import matplotlib.pyplot as plt
 
 
 def get_wins_over_40_single_season(season):
+    """
+    Calculate the total wins over 40 for each conference in a season.
+
+    Args:
+        season (str): The NBA season to query, formatted as 'YYYY-YY'.
+
+    Returns:
+        dict: A dictionary with the total wins over 40 for Eastern and
+                Western Conferences.
+
+    This function retrieves the season standings from the LeagueStandings
+    endpoint and calculates the total number of wins over 40 for each
+    conference.
+    """
     standings = leaguestandings.LeagueStandings(
         season=season, league_id="00", season_type="Regular Season"
     )
@@ -22,6 +36,19 @@ def get_wins_over_40_single_season(season):
 
 
 def aggregate_wins_over_40(seasons_back, save_to_csv=False):
+    """
+    Aggregate the number of wins over 40 for each conference over multiple seasons.
+
+    Args:
+        seasons_back (int): Number of past seasons to aggregate.
+        save_to_csv (bool): If True, saves the data to a CSV file.
+
+    Returns:
+        dict: Aggregated wins over 40 for the Eastern and Western Conferences.
+
+    This function aggregates the wins over 40 across the specified number of
+    past seasons and optionally saves the result to a CSV file.
+    """
     current_year = datetime.now().year
     current_month = datetime.now().month
     start_year = current_year - 1 if current_month < 10 else current_year

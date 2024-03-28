@@ -39,6 +39,24 @@ def mock_get_teams_by_conference(mocker):
 def test_get_championships_by_conference(
     mock_franchise_history, mock_get_teams_by_conference
 ):
+    """
+    Test the get_championships_by_conference function for accuracy.
+
+    This test ensures that the get_championships_by_conference function
+    accurately calculates the total number of championships won by teams in
+    each NBA conference. It uses mocked data to simulate the franchise history
+    and team conference mappings.
+
+    Args:
+        mock_franchise_history: A pytest fixture that mocks the
+                                FranchiseHistory endpoint of the NBA API.
+        mock_get_teams_by_conference: A pytest fixture that mocks the function
+                                    returning team-conference mappings.
+
+    The test will pass if the function correctly calculates the total
+    championships based on the mocked franchise history and team conference
+    data.
+    """
     expected = {
         "Eastern": 5,  # 3 from team_id_1 and 2 from team_id_2
         "Western": 9,  # 5 from team_id_3 and 4 from team_id_4

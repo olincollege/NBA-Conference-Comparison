@@ -15,7 +15,18 @@ MOCK_STANDINGS_DATA = DataFrame(
 @pytest.fixture
 def mock_league_standings(mocker):
     """
-    Fixture to mock LeagueStandings API call.
+    Pytest fixture to mock the LeagueStandings API call in the NBA API.
+
+    This fixture replaces the real call to the LeagueStandings endpoint with a
+    mock, allowing for controlled and predictable testing environments. It uses
+    predefined data to simulate the response from the NBA API.
+
+    Args:
+        mocker: The pytest-mock mocker object used to patch objects for mocking.
+
+    Returns:
+        A mock object representing the LeagueStandings class with a mocked
+        `get_data_frames` method.
     """
     mock = mocker.patch.object(leaguestandings, "LeagueStandings")
     mock.return_value.get_data_frames.return_value = [MOCK_STANDINGS_DATA]
@@ -24,7 +35,21 @@ def mock_league_standings(mocker):
 
 def test_get_teams_by_conference(mock_league_standings):
     """
-    Test to ensure teams are correctly separated into their conferences.
+    Test the get_teams_by_conference function to ensure accurate conference
+    mapping.
+
+    This test verifies that the get_teams_by_conference function correctly
+    assigns NBA teams to their respective conferences based on the mocked
+    data provided by the `mock_league_standings` fixture. The test checks if
+    the function correctly parses and uses the data to segregate teams into
+    the Eastern and Western conferences.
+
+    Args:
+        mock_league_standings: A pytest fixture that mocks the LeagueStandings
+        API call, providing controlled data for testing.
+
+    The test will pass if the function accurately maps teams to their
+    respective conferences using the mocked LeagueStandings data.
     """
     expected = {
         "Eastern": [1610612737, 1610612738],

@@ -5,6 +5,25 @@ from conferences import get_teams_by_conference
 
 
 def get_championships_by_conference(save_to_csv=False):
+    """
+    Fetches the number of championships won by teams in each conference.
+
+    This function retrieves the franchise history from the NBA API to count the
+    total number of league championships won by teams in the Eastern and
+    Western conferences. It can optionally save the results to a CSV file.
+
+    Args:
+        save_to_csv (bool): If True, saves the championship tally to a CSV file.
+                            Defaults to False.
+
+    Returns:
+        dict: A dictionary containing the total number of championships for each
+            conference with keys 'Eastern' and 'Western'.
+
+    Example:
+        >>> get_championships_by_conference(save_to_csv=True)
+        {'Eastern': 3, 'Western': 5}
+    """
     franchise_history = franchisehistory.FranchiseHistory(league_id="00")
     history_data = franchise_history.get_data_frames()[0]
 
@@ -41,27 +60,3 @@ def get_championships_by_conference(save_to_csv=False):
 print("Total championships by conference:")
 championships_by_conference = get_championships_by_conference(save_to_csv=True)
 print(championships_by_conference)
-
-
-def plot_championships_by_conference_from_csv(
-    csv_filename="championships_by_conference.csv",
-):
-    # Read the championships data from the CSV file
-    data = pd.read_csv(csv_filename)
-
-    # Set up the bar chart
-    fig, ax = plt.subplots()
-    ax.bar(data["Conference"], data["Championships"], color=["blue", "red"])
-
-    # Add some text for labels and title
-    ax.set_ylabel("Number of Championships")
-    ax.set_title("NBA Championships by Conference")
-    ax.set_xticks(data["Conference"])
-    ax.set_xticklabels(data["Conference"])
-
-    # Show the plot
-    plt.show()
-
-
-# Example usage
-# plot_championships_by_conference_from_csv()

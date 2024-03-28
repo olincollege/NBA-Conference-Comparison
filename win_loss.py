@@ -5,6 +5,18 @@ import pandas as pd
 
 
 def get_single_season_conference_win_loss_records(season):
+    """
+    Retrieves win-loss records for NBA conferences for a single season.
+
+    Args:
+        season (str): The NBA season to query, formatted as 'YYYY-YY'.
+
+    Returns:
+        dict: Win-loss records for the Eastern and Western Conferences.
+
+    This function queries the NBA LeagueStandings endpoint to obtain and
+    calculate the total wins and losses for each conference.
+    """
     standings = leaguestandings.LeagueStandings(
         season=season, league_id="00", season_type="Regular Season"
     )
@@ -28,6 +40,19 @@ def get_single_season_conference_win_loss_records(season):
 
 
 def aggregate_conference_win_loss_records(seasons_back, save_to_csv=False):
+    """
+    Aggregates win-loss records for NBA conferences over multiple seasons.
+
+    Args:
+        seasons_back (int): Number of past seasons to include.
+        save_to_csv (bool): If True, saves the data to a CSV file.
+
+    Returns:
+        dict: Aggregated win-loss records for Eastern and Western Conferences.
+
+    This function accumulates win-loss records for the specified number of past
+    seasons and optionally saves the aggregated data to a CSV file.
+    """
     current_year = datetime.now().year
     current_month = datetime.now().month
     start_year = current_year - 1 if current_month < 10 else current_year
