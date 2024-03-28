@@ -1,7 +1,7 @@
 import pandas as pd
 from datetime import datetime
 from nba_api.stats.endpoints import leaguestandings
-import matplotlib.pyplot as plt  # Make sure to import pyplot correctly
+import matplotlib.pyplot as plt
 
 
 def get_wins_over_40_single_season(season):
@@ -50,35 +50,3 @@ def aggregate_wins_over_40(seasons_back, save_to_csv=False):
         print(f"Aggregated wins over 40 data saved to {csv_filename}")
 
     return aggregated_wins_over_40
-
-
-# Example usage
-seasons_back = 20  # Example: Last 10 seasons
-aggregate_wins_over_40(seasons_back, save_to_csv=True)
-
-
-def plot_wins_over_40_from_csv(seasons_back):
-    # Construct the CSV filename from the number of seasons back
-    csv_filename = f"aggregated_wins_over_40_last_{seasons_back}_seasons.csv"
-
-    # Read the aggregated data from the CSV file
-    data = pd.read_csv(csv_filename, index_col=0)
-
-    # Plot the data
-    fig, ax = plt.subplots()
-    data.plot(kind="bar", ax=ax, rot=0)
-
-    # Customize the plot with labels and title
-    ax.set_ylabel("Wins Over 40")
-    ax.set_title(
-        f"Aggregated Wins Over 40 by Conference for the Last {seasons_back} Seasons"
-    )
-    ax.legend()
-
-    # Show the plot
-    plt.show()
-
-
-# Example usage
-seasons_back = 10  # Specify the number of seasons back
-plot_wins_over_40_from_csv(seasons_back)

@@ -61,36 +61,3 @@ def aggregate_conference_win_loss_records(seasons_back, save_to_csv=False):
         print(f"Aggregated win-loss records saved to {csv_filename}")
 
     return aggregated_records
-
-
-def plot_conference_win_loss_records_from_csv(seasons_back):
-    csv_filename = (
-        f"conference_win_loss_records_last_{seasons_back}_seasons.csv"
-    )
-    data = pd.read_csv(csv_filename, index_col=0)
-
-    # Prepare data for plotting
-    east_wins = data.loc["Eastern Conference", "Wins"]
-    west_wins = data.loc["Western Conference", "Wins"]
-
-    # Set up the bar chart
-    fig, ax = plt.subplots()
-    ax.bar("Eastern Conference", east_wins, label="Eastern Conference")
-    ax.bar("Western Conference", west_wins, label="Western Conference")
-
-    # Add some text for labels and title
-    ax.set_ylabel("Wins")
-    ax.set_title(
-        f"NBA Win-Loss Records by Conference Over the Past {seasons_back} Seasons"
-    )
-    ax.legend()
-
-    plt.show()
-
-
-# First, generate and save the data to a CSV file
-seasons_back = 20  # Change to desired number of seasons
-aggregate_conference_win_loss_records(seasons_back, save_to_csv=True)
-
-# Then, plot the data from the CSV file
-# plot_conference_win_loss_records_from_csv(seasons_back)
