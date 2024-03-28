@@ -1,18 +1,10 @@
 import pandas as pd
 from datetime import datetime
 from nba_api.stats.endpoints import leaguestandings
+import matplotlib.pyplot as plt  # Make sure to import pyplot correctly
 
 
 def get_wins_over_40_single_season(season):
-    """
-    Calculate the total number of wins over 40 for each team in each conference for a single season.
-
-    Args:
-    season (str): The NBA season to query, formatted as 'YYYY-YY' (e.g., '2019-20').
-
-    Returns:
-    dict: A dictionary containing the total wins over 40 for each conference.
-    """
     standings = leaguestandings.LeagueStandings(
         season=season, league_id="00", season_type="Regular Season"
     )
@@ -29,16 +21,7 @@ def get_wins_over_40_single_season(season):
     return wins_over_40
 
 
-def aggregate_wins_over_40(seasons_back):
-    """
-    Aggregate the total wins over 40 for each team in each conference over the specified number of past seasons.
-
-    Args:
-    seasons_back (int): The number of past seasons to aggregate.
-
-    Returns:
-    dict: A dictionary containing the aggregated total wins over 40 for each conference.
-    """
+def aggregate_wins_over_40(seasons_back, save_to_csv=False):
     current_year = datetime.now().year
     current_month = datetime.now().month
     start_year = current_year - 1 if current_month < 10 else current_year
@@ -54,10 +37,48 @@ def aggregate_wins_over_40(seasons_back):
                 conference
             ]
 
+    if save_to_csv:
+        # Convert the aggregated data to a DataFrame
+        wins_over_40_df = pd.DataFrame.from_dict(
+            aggregated_wins_over_40, orient="index", columns=["Wins Over 40"]
+        )
+        # Save the DataFrame to a CSV file
+        csv_filename = (
+            f"aggregated_wins_over_40_last_{seasons_back}_seasons.csv"
+        )
+        wins_over_40_df.to_csv(csv_filename)
+        print(f"Aggregated wins over 40 data saved to {csv_filename}")
+
     return aggregated_wins_over_40
 
 
 # Example usage
-seasons_back = 20  # Last 10 seasons
-total_wins_over_40 = aggregate_wins_over_40(seasons_back)
-print(total_wins_over_40)
+seasons_back = 20  # Example: Last 10 seasons
+aggregate_wins_over_40(seasons_back, save_to_csv=True)
+
+
+def plot_wins_over_40_from_csv(seasons_back):
+    # Construct the CSV filename from the number of seasons back
+    csv_filename = f"aggregated_wins_over_40_last_{seasons_back}_seasons.csv"
+
+    # Read the aggregated data from the CSV file
+    data = pd.read_csv(csv_filename, index_col=0)
+
+    # Plot the data
+    fig, ax = plt.subplots()
+    data.plot(kind="bar", ax=ax, rot=0)
+
+    # Customize the plot with labels and title
+    ax.set_ylabel("Wins Over 40")
+    ax.set_title(
+        f"Aggregated Wins Over 40 by Conference for the Last {seasons_back} Seasons"
+    )
+    ax.legend()
+
+    # Show the plot
+    plt.show()
+
+
+# Example usage
+seasons_back = 10  # Specify the number of seasons back
+plot_wins_over_40_from_csv(seasons_back)
