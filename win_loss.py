@@ -64,14 +64,12 @@ def aggregate_conference_win_loss_records(seasons_back, save_to_csv=False):
 
     for year in range(start_year - seasons_back, start_year):
         season = f"{year}-{str(year + 1)[-2:]}"
-        single_season_records = get_single_season_conference_win_loss_records(
-            season
-        )
+        single_season_records = get_single_season_conference_win_loss_records(season)
 
         for conference in ["Eastern Conference", "Western Conference"]:
-            aggregated_records[conference]["Wins"] += single_season_records[
-                conference
-            ]["Wins"]
+            aggregated_records[conference]["Wins"] += single_season_records[conference][
+                "Wins"
+            ]
             aggregated_records[conference]["Losses"] += single_season_records[
                 conference
             ]["Losses"]
@@ -79,9 +77,7 @@ def aggregate_conference_win_loss_records(seasons_back, save_to_csv=False):
     if save_to_csv:
         # Convert the aggregated records into a DataFrame for saving to CSV
         records_df = pd.DataFrame.from_dict(aggregated_records, orient="index")
-        csv_filename = (
-            f"conference_win_loss_records_last_{seasons_back}_seasons.csv"
-        )
+        csv_filename = f"conference_win_loss_records_last_{seasons_back}_seasons.csv"
         records_df.to_csv(csv_filename)
         print(f"Aggregated win-loss records saved to {csv_filename}")
 

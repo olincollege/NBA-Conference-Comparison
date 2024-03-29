@@ -8,9 +8,7 @@ from win_loss_versus_non_conference import (
 )
 
 # Mock data for LeagueGameFinder response
-MOCK_GAME_FINDER_DATA = DataFrame(
-    {"TEAM_ID": [1, 2, 3, 4], "WL": ["W", "L", "W", "L"]}
-)
+MOCK_GAME_FINDER_DATA = DataFrame({"TEAM_ID": [1, 2, 3, 4], "WL": ["W", "L", "W", "L"]})
 
 
 @pytest.fixture

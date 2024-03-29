@@ -60,9 +60,7 @@ def aggregate_wins_over_40(seasons_back, save_to_csv=False):
         season_wins_over_40 = get_wins_over_40_single_season(season)
 
         for conference in ["Eastern Conference", "Western Conference"]:
-            aggregated_wins_over_40[conference] += season_wins_over_40[
-                conference
-            ]
+            aggregated_wins_over_40[conference] += season_wins_over_40[conference]
 
     if save_to_csv:
         # Convert the aggregated data to a DataFrame
@@ -70,9 +68,7 @@ def aggregate_wins_over_40(seasons_back, save_to_csv=False):
             aggregated_wins_over_40, orient="index", columns=["Wins Over 40"]
         )
         # Save the DataFrame to a CSV file
-        csv_filename = (
-            f"aggregated_wins_over_40_last_{seasons_back}_seasons.csv"
-        )
+        csv_filename = f"aggregated_wins_over_40_last_{seasons_back}_seasons.csv"
         wins_over_40_df.to_csv(csv_filename)
         print(f"Aggregated wins over 40 data saved to {csv_filename}")
 

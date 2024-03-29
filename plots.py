@@ -13,9 +13,7 @@ def plot_wins_over_40_from_csv(seasons_back):
     wins over 40 for the Eastern and Western Conferences.
     """
     # Construct the CSV filename from the number of seasons back
-    csv_filename = (
-        f"data/aggregated_wins_over_40_last_{seasons_back}_seasons.csv"
-    )
+    csv_filename = f"data/aggregated_wins_over_40_last_{seasons_back}_seasons.csv"
 
     # Read the aggregated data from the CSV file
     data = pd.read_csv(csv_filename, index_col=0)
@@ -45,9 +43,7 @@ def plot_conference_win_loss_records_from_csv(seasons_back):
     This function reads win-loss records from a CSV file and plots them for the
     Eastern and Western Conferences.
     """
-    csv_filename = (
-        f"data/conference_win_loss_records_last_{seasons_back}_seasons.csv"
-    )
+    csv_filename = f"data/conference_win_loss_records_last_{seasons_back}_seasons.csv"
     data = pd.read_csv(csv_filename, index_col=0)
 
     # Prepare data for plotting
@@ -80,7 +76,9 @@ def plot_inter_conference_win_loss_records_from_csv(seasons_back):
     plots them, showing the performance of Eastern and Western Conferences
     against each other.
     """
-    csv_filename = f"data/inter_conference_win_loss_records_last_{seasons_back}_seasons.csv"
+    csv_filename = (
+        f"data/inter_conference_win_loss_records_last_{seasons_back}_seasons.csv"
+    )
     data = pd.read_csv(csv_filename, index_col=0)
 
     fig, ax = plt.subplots()

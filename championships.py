@@ -38,9 +38,7 @@ def get_championships_by_conference(save_to_csv=False):
         league_titles = row["LEAGUE_TITLES"]
 
         # Find the current conference for the team
-        conference = (
-            "Eastern" if team_id in team_conferences["Eastern"] else "Western"
-        )
+        conference = "Eastern" if team_id in team_conferences["Eastern"] else "Western"
         championships_tally[conference] += league_titles
 
     if save_to_csv:

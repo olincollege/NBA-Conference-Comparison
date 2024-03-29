@@ -44,9 +44,7 @@ def get_inter_conference_win_loss_records(season):
     return records
 
 
-def aggregate_inter_conference_win_loss_records(
-    seasons_back, save_to_csv=False
-):
+def aggregate_inter_conference_win_loss_records(seasons_back, save_to_csv=False):
     """
     Aggregate inter-conference win-loss records over multiple seasons.
 
@@ -73,18 +71,10 @@ def aggregate_inter_conference_win_loss_records(
         season = f"{year}-{str(year + 1)[-2:]}"
         season_records = get_inter_conference_win_loss_records(season)
 
-        aggregated_records["Eastern"]["Wins"] += season_records["Eastern"][
-            "Wins"
-        ]
-        aggregated_records["Eastern"]["Losses"] += season_records["Eastern"][
-            "Losses"
-        ]
-        aggregated_records["Western"]["Wins"] += season_records["Western"][
-            "Wins"
-        ]
-        aggregated_records["Western"]["Losses"] += season_records["Western"][
-            "Losses"
-        ]
+        aggregated_records["Eastern"]["Wins"] += season_records["Eastern"]["Wins"]
+        aggregated_records["Eastern"]["Losses"] += season_records["Eastern"]["Losses"]
+        aggregated_records["Western"]["Wins"] += season_records["Western"]["Wins"]
+        aggregated_records["Western"]["Losses"] += season_records["Western"]["Losses"]
 
     if save_to_csv:
         df = pd.DataFrame.from_dict(aggregated_records, orient="index")
