@@ -20,21 +20,25 @@ To obtain the necessary data for this project, follow these steps:
      ```  
    - Utilize endpoints such as `LeagueStandings`, `LeagueGameFinder`, `TeamDetails`, and `FranchiseHistory` to fetch data.  
    - Example call to fetch standings data:  
-     ```
-     from nba_api.stats.endpoints import leaguestandings
 
-     standings = leaguestandings.LeagueStandings(season='2022-23')
+```
+    from nba_api.stats.endpoints import leaguestandings
 
-     standings_df = standings.get_data_frames()[0]
-     ```  
+    standings = leaguestandings.LeagueStandings(season='2022-23')
+
+    standings_df = standings.get_data_frames()[0]
+
+```  
+
 2. **Seasons Data:**  
    - Specify the NBA seasons you are interested in, formatted as 'YYYY-YY' (e.g., '2022-23').  
    - Use these season identifiers when calling the API to retrieve data for the desired seasons.  
 3. **Storing Data:**  
    - After fetching data, it can be saved to CSV files for later use, aiding in analysis and plot generation.
    - Example of saving to CSV:  
+
      ```
-     standings_df.to_csv('nba_standings_2022_23.csv')
+standings_df.to_csv('nba_standings_2022_23.csv')
 
      ```  
 ### Generating Plots
@@ -44,18 +48,19 @@ To generate plots as shown in the computational essay, follow these instructions
    - Functions like `plot_conference_win_loss_records_from_csv` or `plot_wins_over_40_from_csv` can be used to read the stored CSV data and generate plots.  
    - All plotting functions can be found in the `plots.py` file.  
    - Example to generate a plot:  
-     ```
-     import matplotlib.pyplot as plt
 
-     def plot_data_from_csv(csv_file):
+```
+import matplotlib.pyplot as plt
 
-         data = pd.read_csv(csv_file, index_col=0)
+def plot_data_from_csv(csv_file):
 
-         data.plot(kind='bar')
+    data = pd.read_csv(csv_file, index_col=0)
 
-         plt.show()
+    data.plot(kind='bar')
 
-     ```  
+    plt.show()
+
+```  
 2. **Visualization:**  
    - Customize your plots with titles, labels, and legends to make the data easily understandable.  
    - Save the plots using `plt.savefig('filename.png')` if you need to include them in your essay or reports.  
