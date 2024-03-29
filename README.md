@@ -21,14 +21,12 @@ To obtain the necessary data for this project, follow these steps:
    - Utilize endpoints such as `LeagueStandings`, `LeagueGameFinder`, `TeamDetails`, and `FranchiseHistory` to fetch data.  
    - Example call to fetch standings data:  
 
-```
-    from nba_api.stats.endpoints import leaguestandings
+from nba_api.stats.endpoints import leaguestandings
 
-    standings = leaguestandings.LeagueStandings(season='2022-23')
+standings = leaguestandings.LeagueStandings(season='2022-23')
 
-    standings_df = standings.get_data_frames()[0]
+standings_df = standings.get_data_frames()[0]
 
-```  
 
 2. **Seasons Data:**  
    - Specify the NBA seasons you are interested in, formatted as 'YYYY-YY' (e.g., '2022-23').  
@@ -49,7 +47,6 @@ To generate plots as shown in the computational essay, follow these instructions
    - All plotting functions can be found in the `plots.py` file.  
    - Example to generate a plot:  
 
-```
 import matplotlib.pyplot as plt
 
 def plot_data_from_csv(csv_file):
@@ -60,7 +57,6 @@ def plot_data_from_csv(csv_file):
 
     plt.show()
 
-```  
 2. **Visualization:**  
    - Customize your plots with titles, labels, and legends to make the data easily understandable.  
    - Save the plots using `plt.savefig('filename.png')` if you need to include them in your essay or reports.  
